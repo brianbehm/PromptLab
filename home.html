@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PromptLab Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    h1 { font-size: 2rem; margin-bottom: 1.5rem; }
+    .section { margin-bottom: 2rem; }
+    .section h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    ul { padding-left: 1rem; }
+    li { margin-bottom: 0.5rem; }
+    a { color: #333; text-decoration: none; font-weight: bold; }
+    a:hover { text-decoration: underline; }
+    #packList { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🎛️ PromptLab Launcher</h1>
+  <div class="section">
+    <h2>Start a Generator</h2>
+    <ul id="packList">
+      <li><a href="index.html?config=/packs/default_config.json">Default Generator</a></li>
+      <li><a href="index.html?config=/packs/televangelist_config.json">Televangelist Generator</a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>View Saved Characters</h2>
+    <a href="codex.html">📖 Open Codex</a>
+  </div>
+  <div class="section">
+    <h2>Import New Prompt Packs <small>(Coming Soon)</small></h2>
+    <p>Drop <code>.json</code> files into the <code>/packs</code> folder to make them appear here automatically.</p>
+  </div>
+</body>
+</html>

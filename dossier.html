@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dossier Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="dossier.css" />
+</head>
+<body>
+  <header>
+    <h1 id="characterName">Character Dossier</h1>
+  </header>
+
+  <section id="characterTraits"></section>
+
+  <section id="imageUploads">
+    <h2>Uploaded Images</h2>
+    <input type="file" id="imageInput" accept="image/*" />
+    <input type="text" id="imageContext" placeholder="Tag (e.g., TikTok screenshot)" />
+    <button onclick="handleImageUpload()">Upload</button>
+    <div id="imageGallery"></div>
+  </section>
+
+  <section id="promptHistory">
+    <h2>Prompt History</h2>
+    <ol id="promptTimeline"></ol>
+  </section>
+
+  <section id="branchingOptions">
+    <h2>What happens next?</h2>
+    <div id="choicesContainer"></div>
+  </section>
+
+  <script src="dossier.js"></script>
+</body>
+</html>
