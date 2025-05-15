@@ -30,8 +30,84 @@
     <a href="codex.html">📖 Open Codex</a>
   </div>
   <div class="section">
-    <h2>Import New Prompt Packs <small>(Coming Soon)</small></h2>
-    <p>Drop <code>.json</code> files into the <code>/packs</code> folder to make them appear here automatically.</p>
+    <h2>Import New Prompt Packs</h2>
+    <div id="dropZone" style="border:2px dashed #888; padding:1rem; background:#fafafa; text-align:center; cursor:pointer;">
+      Drag & drop a <code>.json</code> file here to add a new pack.<br>
+      <span id="dropStatus"></span>
+    </div>
+    <p>Uploaded packs are stored in your browser and will appear above automatically.</p>
   </div>
+  <script>
+    // Drag-and-drop JSON loader for packs
+    const dropZone = document.getElementById('dropZone');
+    const dropStatus = document.getElementById('dropStatus');
+    const packList = document.getElementById('packList');
+
+    function getUserPacks() {
+      return JSON.parse(localStorage.getItem('user_promptlab_packs') || '[]');
+    }
+    function saveUserPacks(packs) {
+      localStorage.setItem('user_promptlab_packs', JSON.stringify(packs));
+    }
+
+    function renderUserPacks() {
+      const packs = getUserPacks();
+      packs.forEach(pack => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `index.html?config=${encodeURIComponent('userpack:' + pack.id)}`;
+        a.textContent = pack.title || pack.id || 'User Pack';
+        li.appendChild(a);
+        packList.appendChild(li);
+      });
+    }
+
+    // Load user packs at startup
+    renderUserPacks();
+
+    dropZone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropZone.style.background = '#e0f7fa';
+    });
+    dropZone.addEventListener('dragleave', e => {
+      dropZone.style.background = '#fafafa';
+    });
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.style.background = '#fafafa';
+      const file = e.dataTransfer.files[0];
+      if (!file || !file.name.endsWith('.json')) {
+        dropStatus.textContent = 'Please drop a .json file.';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = evt => {
+        try {
+          const config = JSON.parse(evt.target.result);
+          if (!config.title) config.title = file.name.replace('.json','');
+          config.id = config.title.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+          const packs = getUserPacks();
+          packs.push(config);
+          saveUserPacks(packs);
+          dropStatus.textContent = `Loaded pack: ${config.title}`;
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = `index.html?config=${encodeURIComponent('userpack:' + config.id)}`;
+          a.textContent = config.title;
+          li.appendChild(a);
+          packList.appendChild(li);
+        } catch (err) {
+          dropStatus.textContent = 'Invalid JSON file.';
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // Support loading user packs in index.html
+    window.getUserPackConfig = function(id) {
+      const packs = getUserPacks();
+      return packs.find(p => p.id === id);
+    };
+  </script>
 </body>
 </html>

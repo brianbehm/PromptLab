@@ -34,6 +34,12 @@ generateBtn.addEventListener('click', generatePrompt);
 randomizeBtn.addEventListener('click', randomizeAll);
 copyBtn.addEventListener('click', copyPrompt);
 
+// Helper to get user pack config from localStorage (shared with home.html)
+function getUserPackConfig(id) {
+  const packs = JSON.parse(localStorage.getItem('user_promptlab_packs') || '[]');
+  return packs.find(p => p.id === id);
+}
+
 // Load a config file (used for default_config.json or uploaded files)
 async function loadConfig(config) {
   if (!config || !config.categories || !config.promptStructure) {
@@ -97,10 +103,43 @@ function copyPrompt() {
     .catch(err => console.error('Copy failed', err));
 }
 
-// Auto-load default JSON (if needed)
-fetch('default_config.json')
-  .then(r => r.json())
-  .then(config => loadConfig(config))
-  .catch(() => {
-    loadStatus.textContent = 'Drag a config JSON to get started.';
-  });
+// Support loading config from URL param (including userpack:)
+function getConfigParam() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('config');
+}
+
+async function tryLoadConfigFromParam() {
+  const configParam = getConfigParam();
+  if (configParam && configParam.startsWith('userpack:')) {
+    // Load from localStorage
+    const packId = configParam.replace('userpack:', '');
+    const config = getUserPackConfig(packId);
+    if (config) {
+      await loadConfig(config);
+      loadStatus.textContent = `Loaded user pack: ${config.title}`;
+      return;
+    } else {
+      errorStatus.textContent = 'User pack not found.';
+    }
+  } else if (configParam) {
+    // Try to fetch from server
+    fetch(configParam)
+      .then(r => r.json())
+      .then(config => loadConfig(config))
+      .catch(() => {
+        errorStatus.textContent = 'Could not load config from URL.';
+      });
+    return;
+  }
+  // Fallback: default config
+  fetch('default_config.json')
+    .then(r => r.json())
+    .then(config => loadConfig(config))
+    .catch(() => {
+      loadStatus.textContent = 'Drag a config JSON to get started.';
+    });
+}
+
+// Initial load
+tryLoadConfigFromParam();
