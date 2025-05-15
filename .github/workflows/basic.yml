@@ -1,0 +1,32 @@
+name: Basic Checks
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  check-files-exist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: List project files
+        run: |
+          ls -lh
+      - name: Check for index.html
+        run: |
+          if [ ! -f index.html ]; then
+            echo "index.html is missing!" && exit 1
+          fi
+      - name: Check for app.js
+        run: |
+          if [ ! -f app.js ]; then
+            echo "app.js is missing!" && exit 1
+          fi
+      - name: Check for style.css
+        run: |
+          if [ ! -f style.css ]; then
+            echo "style.css is missing!" && exit 1
+          fi
