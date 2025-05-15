@@ -1,0 +1,196 @@
+{
+  "templates": [
+    {
+      "sceneTemplateId": "vault_escape_heist",
+      "title": "Heist: Vault Escape Under Fire",
+      "description": "A high-stakes moment during a glamorous Eurotrash-style heist gone wrong.",
+      "promptStructure": {
+        "visual_intro": "In a {location}, {code_name} \u2014 a {signature_look} {specialty} \u2014 is caught mid-action.",
+        "action_beat": "They're {dynamic_action}, while {threat_or_twist}.",
+        "visual_detail": "Reflections of {visual_effect} flicker in their {accessory_or_trait}.",
+        "image_prefix": "Image reference: {image_url}\n\n"
+      },
+      "traitMap": {
+        "location": [
+          "Monaco casino vault",
+          "Alpine train car",
+          "Versace showroom turned armory"
+        ],
+        "dynamic_action": {
+          "explosives expert": "arming a lipstick-shaped detonator",
+          "hacker": "injecting malware via vintage cell phone",
+          "seduction artist": "charming a double agent mid-sabotage"
+        },
+        "threat_or_twist": {
+          "nemesis": "Agent Marco closes in through laser tripwires",
+          "motivator": "the vault is flooding with knockout gas"
+        },
+        "visual_effect": [
+          "emergency lights",
+          "gold bar reflections",
+          "laser sensors"
+        ],
+        "accessory_or_trait": [
+          "mirrored visor",
+          "gold tooth",
+          "blood-red gloves"
+        ]
+      },
+      "styleOptions": {
+        "aspectRatio": "16:9",
+        "styleTags": [
+          "hyperrealistic",
+          "glamorous",
+          "cinematic",
+          "Midjourney v6",
+          "trending on artstation"
+        ]
+      }
+    },
+    {
+      "sceneTemplateId": "courtroom_meltdown",
+      "title": "Courtroom Meltdown",
+      "description": "A tense or absurd moment during a live-broadcast trial, often involving outbursts, props, or surprise confessions.",
+      "promptStructure": {
+        "visual_intro": "{code_name}, wearing {signature_look}, stands before the court in a {courtroom_setting}.",
+        "action_beat": "They're {dramatic_action}, while {reaction_from_judge_or_crowd}.",
+        "visual_detail": "A {object_of_interest} lies on the courtroom floor beside them.",
+        "image_prefix": "Image reference: {image_url}\n\n"
+      },
+      "traitMap": {
+        "courtroom_setting": [
+          "packed trial courtroom",
+          "makeshift revival tent court",
+          "daytime TV studio set"
+        ],
+        "dramatic_action": {
+          "televangelist": "slamming a leather Bible onto the podium",
+          "mob boss": "shouting about betrayal through tears",
+          "mascot": "pointing dramatically with oversized foam finger"
+        },
+        "reaction_from_judge_or_crowd": {
+          "nemesis": "the judge drops their gavel in disbelief",
+          "motivator": "the jury erupts in whispers"
+        },
+        "object_of_interest": [
+          "false mustache",
+          "bloody shoe",
+          "crumpled fan letter",
+          "stack of forged tax returns"
+        ],
+        "accessory_or_trait": [
+          "gold cufflinks",
+          "smeared makeup",
+          "snapping suspenders"
+        ]
+      },
+      "styleOptions": {
+        "aspectRatio": "4:3",
+        "styleTags": [
+          "soap opera",
+          "televised drama",
+          "awkward realism",
+          "tight framing",
+          "courtroom theatrics"
+        ]
+      }
+    },
+    {
+      "sceneTemplateId": "alien_crash_debrief",
+      "title": "Alien Crash Debrief",
+      "description": "A grim or chaotic sci-fi moment as survivors investigate a recent extraterrestrial crash site.",
+      "promptStructure": {
+        "visual_intro": "Under flickering lights in a {crash_environment}, {code_name} \u2014 a {signature_look} {specialty} \u2014 inspects the wreckage.",
+        "action_beat": "They're {handling_item}, while {alien_detail} begins to activate.",
+        "visual_detail": "A glowing {alien_symbol} pulses on their gear.",
+        "image_prefix": "Image reference: {image_url}\n\n"
+      },
+      "traitMap": {
+        "crash_environment": [
+          "military quarantine dome",
+          "marshy crater",
+          "desert airstrip under floodlights"
+        ],
+        "handling_item": {
+          "scientist": "scanning a twisted metal pod with a handheld device",
+          "bounty hunter": "prying open a scorched escape hatch",
+          "cult leader": "chanting over alien remains"
+        },
+        "alien_detail": [
+          "bioluminescent tendrils",
+          "gravitational anomalies",
+          "holographic projections"
+        ],
+        "alien_symbol": [
+          "glyph",
+          "sigil",
+          "wound",
+          "implant"
+        ],
+        "accessory_or_trait": [
+          "cracked helmet",
+          "dripping glove",
+          "tattoo that begins to glow"
+        ]
+      },
+      "styleOptions": {
+        "aspectRatio": "21:9",
+        "styleTags": [
+          "cinematic sci-fi",
+          "vfx-style lighting",
+          "mood fog",
+          "1980s analog tech"
+        ]
+      }
+    },
+    {
+      "sceneTemplateId": "cult_recruitment_tape",
+      "title": "Cult Recruitment Tape",
+      "description": "A surreal, overly sincere taped message from a cult leader or spiritual figure attempting to recruit new followers.",
+      "promptStructure": {
+        "visual_intro": "{code_name} stares into the camera in a {setting_description}, surrounded by {ritual_objects}.",
+        "action_beat": "They are {spoken_action}, while {unexpected_detail} disrupts the recording.",
+        "visual_detail": "The video glitches just as the {symbolic_element} begins to shimmer.",
+        "image_prefix": "Image reference: {image_url}\n\n"
+      },
+      "traitMap": {
+        "setting_description": [
+          "shag-carpeted living room altar",
+          "geodesic dome filled with incense",
+          "basement with VHS wallpaper"
+        ],
+        "ritual_objects": [
+          "crystals",
+          "taxidermied raccoons",
+          "cheap folding chairs",
+          "paper suns on string"
+        ],
+        "spoken_action": {
+          "cult leader": "inviting viewers to 'ascend with the beam'",
+          "televangelist": "sobbing while promising digital salvation",
+          "mascot": "reciting an oath in slow, awkward tones"
+        },
+        "unexpected_detail": [
+          "a family member walks through the shot",
+          "the audio reverses mid-sentence",
+          "the feed switches to a cooking show"
+        ],
+        "symbolic_element": [
+          "pulsing pendant",
+          "chalk spiral",
+          "canned peaches arranged in a triangle"
+        ]
+      },
+      "styleOptions": {
+        "aspectRatio": "4:3",
+        "styleTags": [
+          "vhs effect",
+          "retro surrealism",
+          "low-budget",
+          "1980s televangelism",
+          "cultcore"
+        ]
+      }
+    }
+  ]
+}
