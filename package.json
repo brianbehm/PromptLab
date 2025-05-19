@@ -1,0 +1,17 @@
+{
+  "name": "promptlab",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . && stylelint \"**/*.css\"",
+    "format": "prettier --check ."
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "prettier": "^2.0.0",
+    "stylelint": "^14.17.0",
+    "stylelint-config-standard": "^29.0.0"
+  }
+}
