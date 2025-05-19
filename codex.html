@@ -1,173 +1,189 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Codex Viewer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-    }
-
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .top-bar {
-      margin-bottom: 2rem;
-    }
-
-    .top-bar a {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background-color: #333;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: bold;
-    }
-
-    .top-bar a:hover {
-      background-color: #555;
-    }
-
-    ul {
-      padding: 0;
-      list-style: none;
-    }
-
-    li {
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .preview {
-      max-height: 80px;
-      border-radius: 4px;
-    }
-
-    .details {
-      flex-grow: 1;
-    }
-
-    .name-link {
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-decoration: none;
-      color: #333;
-    }
-
-    .name-link:hover {
-      text-decoration: underline;
-    }
-
-    .trait-snippet {
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 4px;
-    }
-
-    .delete-btn {
-      background-color: #e74c3c;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 0.4rem 0.7rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .delete-btn:hover {
-      background-color: #c0392b;
-    }
-  </style>
-</head>
-<body>
-  <h1>Saved Televangelists</h1>
-
-  <div class="top-bar">
-    <a href="index.html">+ Create New Character</a>
-  </div>
-
-  <ul id="codexList"></ul>
-
-  <script>
-    const list = document.getElementById("codexList");
-
-    function getDossiers() {
-      return JSON.parse(localStorage.getItem("promptlab_dossiers") || "[]");
-    }
-
-    function saveDossiers(dossiers) {
-      localStorage.setItem("promptlab_dossiers", JSON.stringify(dossiers));
-    }
-
-    function deleteDossier(id) {
-      const confirmed = confirm("Are you sure you want to delete this character?");
-      if (!confirmed) return;
-
-      let dossiers = getDossiers();
-      dossiers = dossiers.filter(d => d.id !== id);
-      saveDossiers(dossiers);
-      renderList(); // re-render
-    }
-
-    function renderList() {
-      const dossiers = getDossiers();
-      list.innerHTML = "";
-
-      if (dossiers.length === 0) {
-        list.innerHTML = "<p>No saved characters found.</p>";
-        return;
+  <head>
+    <meta charset="UTF-8" />
+    <title>Codex Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
       }
 
-      dossiers.forEach(d => {
-        const li = document.createElement("li");
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
 
-        // Preview image
-        if (d.media && d.media.length > 0) {
-          const img = document.createElement("img");
-          img.src = d.media[0].dataUrl;
-          img.className = "preview";
-          li.appendChild(img);
+      .top-bar {
+        margin-bottom: 2rem;
+      }
+
+      .top-bar a {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: #333;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+
+      .top-bar a:hover {
+        background-color: #555;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+
+      li {
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .preview {
+        max-height: 80px;
+        border-radius: 4px;
+      }
+
+      .details {
+        flex-grow: 1;
+      }
+
+      .name-link {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+      }
+
+      .name-link:hover {
+        text-decoration: underline;
+      }
+
+      .trait-snippet {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 4px;
+      }
+
+      .delete-btn {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.4rem 0.7rem;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .delete-btn:hover {
+        background-color: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Saved Televangelists</h1>
+
+    <div class="top-bar">
+      <a href="index.html">+ Create New Character</a>
+    </div>
+
+    <ul id="codexList"></ul>
+
+    <script>
+      let list;
+
+      function getDossiers() {
+        return JSON.parse(localStorage.getItem('promptlab_dossiers') || '[]');
+      }
+
+      function saveDossiers(dossiers) {
+        localStorage.setItem('promptlab_dossiers', JSON.stringify(dossiers));
+      }
+
+      function deleteDossier(id) {
+        const confirmed = confirm(
+          'Are you sure you want to delete this character?'
+        );
+        if (!confirmed) return;
+
+        let dossiers = getDossiers();
+        dossiers = dossiers.filter((d) => d.id !== id);
+        saveDossiers(dossiers);
+        renderList(); // re-render
+      }
+
+      function renderList() {
+        if (!list) return;
+        const dossiers = getDossiers();
+        list.innerHTML = '';
+
+        if (dossiers.length === 0) {
+          list.innerHTML = '<p>No saved characters found.</p>';
+          return;
         }
 
-        // Details block
-        const detailDiv = document.createElement("div");
-        detailDiv.className = "details";
+        dossiers.forEach((d) => {
+          const li = document.createElement('li');
 
-        const link = document.createElement("a");
-        link.href = `dossier.html?id=${encodeURIComponent(d.id)}`;
-        link.className = "name-link";
-        link.textContent = d.name || d.id;
-        detailDiv.appendChild(link);
+          // Preview image
+          if (d.media && d.media.length > 0) {
+            const img = document.createElement('img');
+            img.src = d.media[0].dataUrl;
+            img.className = 'preview';
+            li.appendChild(img);
+          }
 
-        const trait = document.createElement("div");
-        trait.className = "trait-snippet";
-        const summary = d.traits ? `${d.traits.platform || ""}, ${d.traits.era || ""}` : "";
-        trait.textContent = summary;
-        detailDiv.appendChild(trait);
+          // Details block
+          const detailDiv = document.createElement('div');
+          detailDiv.className = 'details';
 
-        li.appendChild(detailDiv);
+          const link = document.createElement('a');
+          link.href = `dossier.html?id=${encodeURIComponent(d.id)}`;
+          link.className = 'name-link';
+          link.textContent = d.name || d.id;
+          detailDiv.appendChild(link);
 
-        // Delete button
-        const delBtn = document.createElement("button");
-        delBtn.className = "delete-btn";
-        delBtn.textContent = "Delete";
-        delBtn.onclick = () => deleteDossier(d.id);
-        li.appendChild(delBtn);
+          const trait = document.createElement('div');
+          trait.className = 'trait-snippet';
+          const summary = d.traits
+            ? `${d.traits.platform || ''}, ${d.traits.era || ''}`
+            : '';
+          trait.textContent = summary;
+          detailDiv.appendChild(trait);
 
-        list.appendChild(li);
-      });
-    }
+          li.appendChild(detailDiv);
 
-    renderList();
-  </script>
-</body>
+          // Delete button
+          const delBtn = document.createElement('button');
+          delBtn.className = 'delete-btn';
+          delBtn.textContent = 'Delete';
+          delBtn.onclick = () => deleteDossier(d.id);
+          li.appendChild(delBtn);
+
+          list.appendChild(li);
+        });
+      }
+
+      function initializeUI() {
+        list = document.getElementById('codexList');
+        renderList();
+      }
+
+      if (typeof window !== 'undefined') {
+        window.addEventListener('DOMContentLoaded', initializeUI);
+      }
+
+      if (typeof module !== 'undefined' && module.exports) {
+        module.exports = { initializeUI };
+      }
+    </script>
+  </body>
 </html>
