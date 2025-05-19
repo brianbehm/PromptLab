@@ -1,113 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>PromptLab Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body { font-family: sans-serif; padding: 2rem; }
-    h1 { font-size: 2rem; margin-bottom: 1.5rem; }
-    .section { margin-bottom: 2rem; }
-    .section h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    ul { padding-left: 1rem; }
-    li { margin-bottom: 0.5rem; }
-    a { color: #333; text-decoration: none; font-weight: bold; }
-    a:hover { text-decoration: underline; }
-    #packList { margin-top: 1rem; }
-  </style>
-</head>
-<body>
-  <h1>🎛️ PromptLab Launcher</h1>
-  <div class="section">
-    <h2>Start a Generator</h2>
-    <ul id="packList">
-      <li><a href="index.html?config=/packs/default_config.json">Default Generator</a></li>
-      <li><a href="index.html?config=/packs/televangelist_config.json">Televangelist Generator</a></li>
-    </ul>
-  </div>
-  <div class="section">
-    <h2>View Saved Characters</h2>
-    <a href="codex.html">📖 Open Codex</a>
-  </div>
-  <div class="section">
-    <h2>Import New Prompt Packs</h2>
-    <div id="dropZone" style="border:2px dashed #888; padding:1rem; background:#fafafa; text-align:center; cursor:pointer;">
-      Drag & drop a <code>.json</code> file here to add a new pack.<br>
-      <span id="dropStatus"></span>
-    </div>
-    <p>Uploaded packs are stored in your browser and will appear above automatically.</p>
-  </div>
-  <script>
-    // Drag-and-drop JSON loader for packs
-    const dropZone = document.getElementById('dropZone');
-    const dropStatus = document.getElementById('dropStatus');
-    const packList = document.getElementById('packList');
-
-    function getUserPacks() {
-      return JSON.parse(localStorage.getItem('user_promptlab_packs') || '[]');
-    }
-    function saveUserPacks(packs) {
-      localStorage.setItem('user_promptlab_packs', JSON.stringify(packs));
-    }
-
-    function renderUserPacks() {
-      const packs = getUserPacks();
-      packs.forEach(pack => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = `index.html?config=${encodeURIComponent('userpack:' + pack.id)}`;
-        a.textContent = pack.title || pack.id || 'User Pack';
-        li.appendChild(a);
-        packList.appendChild(li);
-      });
-    }
-
-    // Load user packs at startup
-    renderUserPacks();
-
-    dropZone.addEventListener('dragover', e => {
-      e.preventDefault();
-      dropZone.style.background = '#e0f7fa';
-    });
-    dropZone.addEventListener('dragleave', e => {
-      dropZone.style.background = '#fafafa';
-    });
-    dropZone.addEventListener('drop', e => {
-      e.preventDefault();
-      dropZone.style.background = '#fafafa';
-      const file = e.dataTransfer.files[0];
-      if (!file || !file.name.endsWith('.json')) {
-        dropStatus.textContent = 'Please drop a .json file.';
-        return;
+  <head>
+    <meta charset="UTF-8" />
+    <title>PromptLab Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
       }
-      const reader = new FileReader();
-      reader.onload = evt => {
-        try {
-          const config = JSON.parse(evt.target.result);
-          if (!config.title) config.title = file.name.replace('.json','');
-          config.id = config.title.toLowerCase().replace(/[^a-z0-9]+/g, '_');
-          const packs = getUserPacks();
-          packs.push(config);
-          saveUserPacks(packs);
-          dropStatus.textContent = `Loaded pack: ${config.title}`;
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      .section {
+        margin-bottom: 2rem;
+      }
+      .section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+      ul {
+        padding-left: 1rem;
+      }
+      li {
+        margin-bottom: 0.5rem;
+      }
+      a {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      #packList {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎛️ PromptLab Launcher</h1>
+    <div class="section">
+      <h2>Start a Generator</h2>
+      <ul id="packList">
+        <li>
+          <a href="index.html?config=/packs/default_config.json"
+            >Default Generator</a
+          >
+        </li>
+        <li>
+          <a href="index.html?config=/packs/televangelist_config.json"
+            >Televangelist Generator</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>View Saved Characters</h2>
+      <a href="codex.html">📖 Open Codex</a>
+    </div>
+    <div class="section">
+      <h2>Import New Prompt Packs</h2>
+      <div
+        id="dropZone"
+        style="
+          border: 2px dashed #888;
+          padding: 1rem;
+          background: #fafafa;
+          text-align: center;
+          cursor: pointer;
+        "
+      >
+        Drag & drop a <code>.json</code> file here to add a new pack.<br />
+        <span id="dropStatus"></span>
+      </div>
+      <p>
+        Uploaded packs are stored in your browser and will appear above
+        automatically.
+      </p>
+    </div>
+    <script>
+      // Drag-and-drop JSON loader for packs
+      let dropZone;
+      let dropStatus;
+      let packList;
+
+      function getUserPacks() {
+        return JSON.parse(localStorage.getItem('user_promptlab_packs') || '[]');
+      }
+      function saveUserPacks(packs) {
+        localStorage.setItem('user_promptlab_packs', JSON.stringify(packs));
+      }
+
+      function renderUserPacks() {
+        if (!packList) return;
+        const packs = getUserPacks();
+        packs.forEach((pack) => {
           const li = document.createElement('li');
           const a = document.createElement('a');
-          a.href = `index.html?config=${encodeURIComponent('userpack:' + config.id)}`;
-          a.textContent = config.title;
+          a.href = `index.html?config=${encodeURIComponent('userpack:' + pack.id)}`;
+          a.textContent = pack.title || pack.id || 'User Pack';
           li.appendChild(a);
           packList.appendChild(li);
-        } catch (err) {
-          dropStatus.textContent = 'Invalid JSON file.';
-        }
-      };
-      reader.readAsText(file);
-    });
+        });
+      }
 
-    // Support loading user packs in index.html
-    window.getUserPackConfig = function(id) {
-      const packs = getUserPacks();
-      return packs.find(p => p.id === id);
-    };
-  </script>
-</body>
+      function initializeUI() {
+        dropZone = document.getElementById('dropZone');
+        dropStatus = document.getElementById('dropStatus');
+        packList = document.getElementById('packList');
+
+        renderUserPacks();
+
+        if (dropZone) {
+          dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.background = '#e0f7fa';
+          });
+          dropZone.addEventListener('dragleave', () => {
+            dropZone.style.background = '#fafafa';
+          });
+          dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.background = '#fafafa';
+            const file = e.dataTransfer.files[0];
+            if (!file || !file.name.endsWith('.json')) {
+              if (dropStatus)
+                dropStatus.textContent = 'Please drop a .json file.';
+              return;
+            }
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+              try {
+                const config = JSON.parse(evt.target.result);
+                if (!config.title)
+                  config.title = file.name.replace('.json', '');
+                config.id = config.title
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '_');
+                const packs = getUserPacks();
+                packs.push(config);
+                saveUserPacks(packs);
+                if (dropStatus)
+                  dropStatus.textContent = `Loaded pack: ${config.title}`;
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `index.html?config=${encodeURIComponent('userpack:' + config.id)}`;
+                a.textContent = config.title;
+                li.appendChild(a);
+                packList.appendChild(li);
+              } catch (err) {
+                if (dropStatus) dropStatus.textContent = 'Invalid JSON file.';
+              }
+            };
+            reader.readAsText(file);
+          });
+        }
+
+        window.getUserPackConfig = function (id) {
+          const packs = getUserPacks();
+          return packs.find((p) => p.id === id);
+        };
+      }
+
+      if (typeof window !== 'undefined') {
+        window.addEventListener('DOMContentLoaded', initializeUI);
+      }
+
+      if (typeof module !== 'undefined' && module.exports) {
+        module.exports = { initializeUI };
+      }
+    </script>
+  </body>
 </html>
