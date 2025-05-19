@@ -1,76 +1,106 @@
-const output = document.getElementById('output');
-const loadStatus = document.getElementById('loadStatus');
-const errorStatus = document.getElementById('errorStatus');
-const categoriesContainer = document.getElementById('categoriesContainer');
-const generateBtn = document.getElementById('generateBtn');
-const randomizeBtn = document.getElementById('randomizeBtn');
-const copyBtn = document.getElementById('copyBtn');
+let output;
+let loadStatus;
+let errorStatus;
+let categoriesContainer;
+let generateBtn;
+let randomizeBtn;
+let copyBtn;
 
 let selects = {};
 let categoryObjects = [];
 let promptStructure = {};
 
-document.getElementById('darkmode').addEventListener('change', () => {
-  document.body.classList.toggle('dark-mode', document.getElementById('darkmode').checked);
-});
+function initializeUI() {
+  output = document.getElementById('output');
+  loadStatus = document.getElementById('loadStatus');
+  errorStatus = document.getElementById('errorStatus');
+  categoriesContainer = document.getElementById('categoriesContainer');
+  generateBtn = document.getElementById('generateBtn');
+  randomizeBtn = document.getElementById('randomizeBtn');
+  copyBtn = document.getElementById('copyBtn');
 
-document.getElementById('jsonConfigInput').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const config = JSON.parse(e.target.result);
-      loadConfig(config);
-    } catch (err) {
-      errorStatus.textContent = 'Invalid JSON';
-      console.error(err);
-    }
-  };
-  reader.readAsText(file);
-});
+  const darkmodeToggle = document.getElementById('darkmode');
+  if (darkmodeToggle) {
+    darkmodeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode', darkmodeToggle.checked);
+    });
+  }
 
-generateBtn.addEventListener('click', generatePrompt);
-randomizeBtn.addEventListener('click', randomizeAll);
-copyBtn.addEventListener('click', copyPrompt);
+  const jsonInput = document.getElementById('jsonConfigInput');
+  if (jsonInput) {
+    jsonInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const config = JSON.parse(ev.target.result);
+          loadConfig(config);
+        } catch (err) {
+          if (errorStatus) errorStatus.textContent = 'Invalid JSON';
+          console.error(err);
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  if (generateBtn) generateBtn.addEventListener('click', generatePrompt);
+  if (randomizeBtn) randomizeBtn.addEventListener('click', randomizeAll);
+  if (copyBtn) copyBtn.addEventListener('click', copyPrompt);
+
+  tryLoadConfigFromParam();
+}
 
 // Helper to get user pack config from localStorage (shared with home.html)
 function getUserPackConfig(id) {
-  const packs = JSON.parse(localStorage.getItem('user_promptlab_packs') || '[]');
-  return packs.find(p => p.id === id);
+  const packs = JSON.parse(
+    localStorage.getItem('user_promptlab_packs') || '[]'
+  );
+  return packs.find((p) => p.id === id);
 }
 
 // Load a config file (used for default_config.json or uploaded files)
 async function loadConfig(config) {
   if (!config || !config.categories || !config.promptStructure) {
-    errorStatus.textContent = 'Config must include "categories" and "promptStructure".';
+    if (errorStatus) {
+      errorStatus.textContent =
+        'Config must include "categories" and "promptStructure".';
+    }
     return;
   }
   categoryObjects = config.categories;
   promptStructure = config.promptStructure;
 
-  document.getElementById('mainTitle').textContent = config.title || 'Prompt Generator';
-  document.title = config.pageTitle || config.title || 'Prompt Generator';
+  const titleEl = document.getElementById('mainTitle');
+  if (titleEl) titleEl.textContent = config.title || 'Prompt Generator';
+  if (typeof document !== 'undefined') {
+    document.title = config.pageTitle || config.title || 'Prompt Generator';
+  }
 
-  categoriesContainer.innerHTML = '';
+  if (categoriesContainer) {
+    categoriesContainer.innerHTML = '';
+  }
   selects = {};
 
-  categoryObjects.forEach(cat => {
+  categoryObjects.forEach((cat) => {
     const label = document.createElement('label');
     label.textContent = cat.label || cat.id;
 
     const select = document.createElement('select');
     select.id = cat.id;
 
-    (cat.options || []).forEach(opt => {
+    (cat.options || []).forEach((opt) => {
       const option = document.createElement('option');
       option.value = opt;
       option.textContent = opt;
       select.appendChild(option);
     });
 
-    categoriesContainer.appendChild(label);
-    categoriesContainer.appendChild(select);
+    if (categoriesContainer) {
+      categoriesContainer.appendChild(label);
+      categoriesContainer.appendChild(select);
+    }
     selects[cat.id] = select;
   });
 
@@ -84,12 +114,14 @@ function generatePrompt() {
     const val = sel.value;
     prompt = prompt.replaceAll(`{${key}}`, val || '');
   });
-  output.value = prompt.trim();
+  if (output) {
+    output.value = prompt.trim();
+  }
 }
 
 // Randomize dropdown selections
 function randomizeAll() {
-  Object.values(selects).forEach(sel => {
+  Object.values(selects).forEach((sel) => {
     const len = sel.options.length;
     if (len > 0) sel.selectedIndex = Math.floor(Math.random() * len);
   });
@@ -98,9 +130,11 @@ function randomizeAll() {
 
 // Copy to clipboard
 function copyPrompt() {
-  navigator.clipboard.writeText(output.value)
+  if (!output) return;
+  navigator.clipboard
+    .writeText(output.value)
     .then(() => alert('Copied!'))
-    .catch(err => console.error('Copy failed', err));
+    .catch((err) => console.error('Copy failed', err));
 }
 
 // Support loading config from URL param (including userpack:)
@@ -117,29 +151,38 @@ async function tryLoadConfigFromParam() {
     const config = getUserPackConfig(packId);
     if (config) {
       await loadConfig(config);
-      loadStatus.textContent = `Loaded user pack: ${config.title}`;
+      if (loadStatus)
+        loadStatus.textContent = `Loaded user pack: ${config.title}`;
       return;
     } else {
-      errorStatus.textContent = 'User pack not found.';
+      if (errorStatus) errorStatus.textContent = 'User pack not found.';
     }
   } else if (configParam) {
     // Try to fetch from server
     fetch(configParam)
-      .then(r => r.json())
-      .then(config => loadConfig(config))
+      .then((r) => r.json())
+      .then((config) => loadConfig(config))
       .catch(() => {
-        errorStatus.textContent = 'Could not load config from URL.';
+        if (errorStatus)
+          errorStatus.textContent = 'Could not load config from URL.';
       });
     return;
   }
   // Fallback: default config
   fetch('default_config.json')
-    .then(r => r.json())
-    .then(config => loadConfig(config))
+    .then((r) => r.json())
+    .then((config) => loadConfig(config))
     .catch(() => {
-      loadStatus.textContent = 'Drag a config JSON to get started.';
+      if (loadStatus)
+        loadStatus.textContent = 'Drag a config JSON to get started.';
     });
 }
 
-// Initial load
-tryLoadConfigFromParam();
+// Export in Node and run in browser
+if (typeof window !== 'undefined') {
+  window.addEventListener('DOMContentLoaded', initializeUI);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { initializeUI };
+}

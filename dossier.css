@@ -24,8 +24,8 @@ img.preview {
   display: inline-block;
 }
 
-input[type="file"],
-input[type="text"] {
+input[type='file'],
+input[type='text'] {
   margin: 0.5rem 0;
 }
 

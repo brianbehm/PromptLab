@@ -1,18 +1,67 @@
 {
-    "title": "Televangelist Prompt Generator",
-    "pageTitle": "TelevangelistGen",
-    "categories": [
-      { "id": "race", "label": "Race", "type": "dropdown", "options": ["Black", "White", "Latino", "Asian"] },
-      { "id": "ageBracket", "label": "Age Bracket", "type": "dropdown", "options": ["young", "middle-aged", "elderly"] },
-      { "id": "bodyType", "label": "Body Type", "type": "dropdown", "options": ["slender", "stocky", "muscular"] },
-      { "id": "style", "label": "Style", "type": "dropdown", "options": ["a velvet robe", "a rhinestone vest", "a white suit"] },
-      { "id": "platform", "label": "Platform", "type": "dropdown", "options": ["Facebook Live", "tent revival", "TV studio"] },
-      { "id": "era", "label": "Era", "type": "dropdown", "options": ["1980s", "modern", "Y2K", "radio age"] },
-      { "id": "energy", "label": "Energy", "type": "dropdown", "options": ["fire-and-brimstone", "calm and warm", "chaotic holy fervor"] },
-      { "id": "seduction", "label": "Seduction Tactic", "type": "dropdown", "options": ["fear of hellfire", "promise of blessings", "weird Bible trivia"] },
-      { "id": "money", "label": "Money Appeal", "type": "dropdown", "options": ["$1000 seed faith", "digital blessing tier", "miracle socks"] }
-    ],
-    "promptStructure": {
-      "base": "A {race}, {ageBracket} televangelist with a {bodyType} build and dressed in {style}, delivers a sermon on {platform} in the {era}. Their delivery is marked by {energy} energy, using {seduction} to reach the audience while asking for {money}."
+  "title": "Televangelist Prompt Generator",
+  "pageTitle": "TelevangelistGen",
+  "categories": [
+    {
+      "id": "race",
+      "label": "Race",
+      "type": "dropdown",
+      "options": ["Black", "White", "Latino", "Asian"]
+    },
+    {
+      "id": "ageBracket",
+      "label": "Age Bracket",
+      "type": "dropdown",
+      "options": ["young", "middle-aged", "elderly"]
+    },
+    {
+      "id": "bodyType",
+      "label": "Body Type",
+      "type": "dropdown",
+      "options": ["slender", "stocky", "muscular"]
+    },
+    {
+      "id": "style",
+      "label": "Style",
+      "type": "dropdown",
+      "options": ["a velvet robe", "a rhinestone vest", "a white suit"]
+    },
+    {
+      "id": "platform",
+      "label": "Platform",
+      "type": "dropdown",
+      "options": ["Facebook Live", "tent revival", "TV studio"]
+    },
+    {
+      "id": "era",
+      "label": "Era",
+      "type": "dropdown",
+      "options": ["1980s", "modern", "Y2K", "radio age"]
+    },
+    {
+      "id": "energy",
+      "label": "Energy",
+      "type": "dropdown",
+      "options": ["fire-and-brimstone", "calm and warm", "chaotic holy fervor"]
+    },
+    {
+      "id": "seduction",
+      "label": "Seduction Tactic",
+      "type": "dropdown",
+      "options": [
+        "fear of hellfire",
+        "promise of blessings",
+        "weird Bible trivia"
+      ]
+    },
+    {
+      "id": "money",
+      "label": "Money Appeal",
+      "type": "dropdown",
+      "options": ["$1000 seed faith", "digital blessing tier", "miracle socks"]
     }
-  }f
+  ],
+  "promptStructure": {
+    "base": "A {race}, {ageBracket} televangelist with a {bodyType} build and dressed in {style}, delivers a sermon on {platform} in the {era}. Their delivery is marked by {energy} energy, using {seduction} to reach the audience while asking for {money}."
+  }
+}
