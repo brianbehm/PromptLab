@@ -141,5 +141,10 @@ async function tryLoadConfigFromParam() {
     });
 }
 
-// Initial load
-tryLoadConfigFromParam();
+// Export functions for testing or initialize when running in browser
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { randomizeAll, loadConfig };
+} else {
+  // Initial load
+  tryLoadConfigFromParam();
+}
