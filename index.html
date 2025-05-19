@@ -1,38 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Prompt Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <h1 id="mainTitle">Prompt Generator</h1>
-    <label>
-      <input type="checkbox" id="darkmode" checked onchange="toggleTheme()" />
-      Dark Mode
-    </label>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prompt Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 id="mainTitle">Prompt Generator</h1>
+      <label>
+        <input type="checkbox" id="darkmode" checked />
+        Dark Mode
+      </label>
+    </header>
 
-  <section>
-    <label for="jsonConfigInput">Load Configuration JSON:</label>
-    <input type="file" id="jsonConfigInput" accept=".json" />
-    <div id="loadStatus">Loading default config...</div>
-    <div id="errorStatus"></div>
-  </section>
+    <section>
+      <label for="jsonConfigInput">Load Configuration JSON:</label>
+      <input type="file" id="jsonConfigInput" accept=".json" />
+      <div id="loadStatus">Loading default config...</div>
+      <div id="errorStatus"></div>
+    </section>
 
-  <div id="categoriesContainer"></div>
-  <div id="checkboxesContainer"></div>
+    <div id="categoriesContainer"></div>
+    <div id="checkboxesContainer"></div>
 
-  <div class="button-group">
-    <button id="generateBtn">Generate</button>
-    <button id="randomizeBtn">Randomize</button>
-    <button id="copyBtn">Copy</button>
-  </div>
+    <div class="button-group">
+      <button id="generateBtn">Generate</button>
+      <button id="randomizeBtn">Randomize</button>
+      <button id="copyBtn">Copy</button>
+    </div>
 
-  <textarea id="output" rows="10" placeholder="Your generated prompt will appear here..."></textarea>
+    <textarea
+      id="output"
+      rows="10"
+      placeholder="Your generated prompt will appear here..."
+    ></textarea>
 
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
