@@ -1,68 +1,69 @@
 :root {
-    --bg: #fff;
-    --fg: #000;
-    --accent: #eee;
-    --btn-bg: #333;
-    --btn-fg: #fff;
-    --btn-hover-bg: #111;
-  }
-  
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: sans-serif;
-    margin: 1rem;
-    line-height: 1.5;
-  }
-  
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  input[type="file"],
-  select,
-  textarea {
-    width: 100%;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    font-size: 1rem;
-    background: var(--accent);
-    color: var(--fg);
-    border: 1px solid #aaa;
-    border-radius: 4px;
-  }
-  
-  button {
-    background: var(--btn-bg);
-    color: var(--btn-fg);
-    padding: 0.75rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  button:hover {
-    background: var(--btn-hover-bg);
-  }
-  
-  .button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 1rem;
-  }
-  
-  textarea {
-    margin-top: 1rem;
-    font-family: monospace;
-  }
-  
-  body.dark-mode {
-    --bg: #1a1a1a;
-    --fg: #e0e0e0;
-    --accent: #2c2c2c;
-    --btn-bg: #555;
-    --btn-hover-bg: #777;
-  }
+  --bg: #fff;
+  --fg: #000;
+  --accent: #eee;
+  --btn-bg: #333;
+  --btn-fg: #fff;
+  --btn-hover-bg: #111;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: sans-serif;
+  margin: 1rem;
+  line-height: 1.5;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input[type='file'],
+select,
+textarea {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background: var(--accent);
+  color: var(--fg);
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+button {
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  padding: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--btn-hover-bg);
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+textarea {
+  margin-top: 1rem;
+  font-family: monospace;
+}
+
+body.dark-mode {
+  --bg: #1a1a1a;
+  --fg: #e0e0e0;
+  --accent: #2c2c2c;
+  --btn-bg: #555;
+  --btn-hover-bg: #777;
+}
