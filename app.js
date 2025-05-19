@@ -10,15 +10,20 @@ let selects = {};
 let categoryObjects = [];
 let promptStructure = {};
 
-document.getElementById('darkmode').addEventListener('change', () => {
-  document.body.classList.toggle('dark-mode', document.getElementById('darkmode').checked);
-});
+function initializeUI() {
+  document.getElementById('darkmode').addEventListener('change', () => {
+    document.body.classList.toggle(
+      'dark-mode',
+      document.getElementById('darkmode').checked
+    );
+  });
+}
 
-document.getElementById('jsonConfigInput').addEventListener('change', e => {
+document.getElementById('jsonConfigInput').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = e => {
+  reader.onload = (e) => {
     try {
       const config = JSON.parse(e.target.result);
       loadConfig(config);
@@ -36,33 +41,37 @@ copyBtn.addEventListener('click', copyPrompt);
 
 // Helper to get user pack config from localStorage (shared with home.html)
 function getUserPackConfig(id) {
-  const packs = JSON.parse(localStorage.getItem('user_promptlab_packs') || '[]');
-  return packs.find(p => p.id === id);
+  const packs = JSON.parse(
+    localStorage.getItem('user_promptlab_packs') || '[]'
+  );
+  return packs.find((p) => p.id === id);
 }
 
 // Load a config file (used for default_config.json or uploaded files)
 async function loadConfig(config) {
   if (!config || !config.categories || !config.promptStructure) {
-    errorStatus.textContent = 'Config must include "categories" and "promptStructure".';
+    errorStatus.textContent =
+      'Config must include "categories" and "promptStructure".';
     return;
   }
   categoryObjects = config.categories;
   promptStructure = config.promptStructure;
 
-  document.getElementById('mainTitle').textContent = config.title || 'Prompt Generator';
+  document.getElementById('mainTitle').textContent =
+    config.title || 'Prompt Generator';
   document.title = config.pageTitle || config.title || 'Prompt Generator';
 
   categoriesContainer.innerHTML = '';
   selects = {};
 
-  categoryObjects.forEach(cat => {
+  categoryObjects.forEach((cat) => {
     const label = document.createElement('label');
     label.textContent = cat.label || cat.id;
 
     const select = document.createElement('select');
     select.id = cat.id;
 
-    (cat.options || []).forEach(opt => {
+    (cat.options || []).forEach((opt) => {
       const option = document.createElement('option');
       option.value = opt;
       option.textContent = opt;
@@ -89,7 +98,7 @@ function generatePrompt() {
 
 // Randomize dropdown selections
 function randomizeAll() {
-  Object.values(selects).forEach(sel => {
+  Object.values(selects).forEach((sel) => {
     const len = sel.options.length;
     if (len > 0) sel.selectedIndex = Math.floor(Math.random() * len);
   });
@@ -98,9 +107,10 @@ function randomizeAll() {
 
 // Copy to clipboard
 function copyPrompt() {
-  navigator.clipboard.writeText(output.value)
+  navigator.clipboard
+    .writeText(output.value)
     .then(() => alert('Copied!'))
-    .catch(err => console.error('Copy failed', err));
+    .catch((err) => console.error('Copy failed', err));
 }
 
 // Support loading config from URL param (including userpack:)
@@ -125,8 +135,8 @@ async function tryLoadConfigFromParam() {
   } else if (configParam) {
     // Try to fetch from server
     fetch(configParam)
-      .then(r => r.json())
-      .then(config => loadConfig(config))
+      .then((r) => r.json())
+      .then((config) => loadConfig(config))
       .catch(() => {
         errorStatus.textContent = 'Could not load config from URL.';
       });
@@ -134,8 +144,8 @@ async function tryLoadConfigFromParam() {
   }
   // Fallback: default config
   fetch('default_config.json')
-    .then(r => r.json())
-    .then(config => loadConfig(config))
+    .then((r) => r.json())
+    .then((config) => loadConfig(config))
     .catch(() => {
       loadStatus.textContent = 'Drag a config JSON to get started.';
     });
@@ -143,8 +153,9 @@ async function tryLoadConfigFromParam() {
 
 // Export functions for testing or initialize when running in browser
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { randomizeAll, loadConfig };
+  module.exports = { randomizeAll, loadConfig, initializeUI };
 } else {
   // Initial load
+  initializeUI();
   tryLoadConfigFromParam();
 }
