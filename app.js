@@ -10,9 +10,13 @@ let selects = {};
 let categoryObjects = [];
 let promptStructure = {};
 
-document.getElementById('darkmode').addEventListener('change', () => {
-  document.body.classList.toggle('dark-mode', document.getElementById('darkmode').checked);
-});
+function toggleTheme() {
+  const toggle = document.getElementById('darkmode');
+  if (!toggle) return;
+  document.body.classList.toggle('dark-mode', toggle.checked);
+}
+
+document.getElementById('darkmode').addEventListener('change', toggleTheme);
 
 document.getElementById('jsonConfigInput').addEventListener('change', e => {
   const file = e.target.files[0];
